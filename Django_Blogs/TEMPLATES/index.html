@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+{% block content %}
+<h1 class="main-heading">Blogs</h1>  
+<div class="blog-container">
+    <div class="create-btn">
+        <a class="btn" href="{% url 'Add-blog' %}">Create Blog</a>
+    </div>
+    <div class="blogs">
+        {% for blog in blogs %}
+        <div class="blog-title">
+           <h2>Topic : <a href="{% url 'Blog' blog.id %}">{{blog.title}}</a></h2>
+        </div>
+        {% endfor %}
+    </div>
+</div> 
+{% endblock content %}

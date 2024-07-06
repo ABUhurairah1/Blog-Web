@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'Style/style.css' %}">
+    <title>Delete {{blog.title}}</title>
+</head>
+<body>
+    <div class="form-container">
+        
+        {% if page == "Delete-Blog" %} 
+        <div class="delete-form">
+            <form action="#" method="post">
+                {%csrf_token%}
+                <h3>Did You Realy Want To 
+                    Delete This "{{blog.title}}" 
+                    Blog?
+                </h3>
+                <input class="form-btn" type="submit" value="Yes">
+                <a class="btn" href="{% url 'Blog' blog.id %}">No</a>
+            </form>
+        </div>
+       {% else %}
+       <div class="delete-form">
+        <form action="#" method="post">
+            {%csrf_token%}
+            <h3>Did You Realy Want To 
+                Delete This "{{comment.text}}" 
+                comment?
+            </h3>
+            <input class="form-btn" type="submit" value="Yes">
+            <a class="btn" href="{% url 'Home' %}">No</a>
+            {%endif%}
+        </form>
+       </div>
+    </div>
+</body>
+</html>

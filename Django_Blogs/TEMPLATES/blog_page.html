@@ -1,0 +1,53 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<h1 class="main-heading">Blog</h1>
+    <div class="blog">
+        <h3 class="blog-host">Uploaded by : {{blog.host.username}}</h3>
+        <h2 class="title">{{blog.title}}</h2>
+        <img class="blog-img" src="{{blog.image.url}}">
+        <p class="description"><b>Description : </b>{{blog.description}}</p>
+    </div>
+    <div class="blog-btn">
+        {% if request.user.is_authenticated %}
+        {% if request.user == blog.host %}
+            <a class="form-btn" href="{% url 'Update-blog' blog.id%}">Edit</a>
+            <a class="form-btn" href="{% url 'Delete-blog' blog.id%}">Delete</a>
+        {% endif %}
+        {% endif %}
+    </div>
+    <h2 class="main-heading" >Comments</h2>
+    {% if request.user.is_authenticated %}
+    <div class="comments">
+        <div class="comment-box">
+            <form method="post" id="commentForm">
+                {%csrf_token%}
+                <input type="text" name="text" id="comment" placeholder = "Add Comment"><hr>
+                <div class="comment-btn">
+                    <button id="savebtn" class="btn" name="submit">Comment</button>
+                </div>
+            </form>
+        </div>
+        {% endif %}
+        <div id="comments"></div>
+        <div class="comment-section" id="comments-section">
+            {% for comment in comments %}
+                <div class="comment">
+                    <div class="comment-header">
+                        <p class="comment-author">@{{ comment.host.username }} --  Date : {{comment.created}}</p>
+                    </div>
+                    <div class="comment-body">
+                        <p>{{ comment.text }}</p>
+                    </div>
+                    {% if request.user == comment.host %}
+                    <div class="comment-actions">
+                        <a class="delete-button" href="{% url 'Delete-comment' comment.id %}">Delete</a>
+                    </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+    <script src="{% static 'Js/scripts.js' %}"></script>
+{% endblock content %}
